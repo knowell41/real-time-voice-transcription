@@ -37,6 +37,7 @@ class Transcriber:
             target=self.process_predictions, daemon=True
         )
         self.prediction_thread.start()
+        self.is_prediction_running = True
 
     def predict(self, speech_array: list, sampling_rate: int):
         # self.logger.debug(speech_array)
@@ -105,8 +106,14 @@ class Transcriber:
         while True:
             if not self.audio_queue.empty():
                 speech_data, rate = self.audio_queue.get()
-                # filename = self.to_wav(speech_data, rate) #save chunk to wav
-                # speech_array, sampling_rate = sf.read(filename) #get speech_array from chunk wav file
+
+                # save chunk to wav
+                # filename = self.to_wav(speech_data, rate)
+
+                # get speech_array from chunk wav file
+                # speech_array, sampling_rate = sf.read(filename)
+
+                # get speech_array from raw stream data
                 speech_array = np.frombuffer(speech_data, dtype=np.int16)
                 text = self.predict(speech_array, self.RATE)
                 print(text)
