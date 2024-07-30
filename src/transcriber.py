@@ -11,6 +11,7 @@ import numpy as np
 from datetime import datetime
 import uuid
 import os
+import traceback
 
 
 class Transcriber:
@@ -28,9 +29,9 @@ class Transcriber:
         self.output_dir = output_dir
         self.stream_thread = None
         self.audio_queue = queue.Queue()
-        self.processor = WhisperProcessor.from_pretrained("openai/whisper-small.en")
+        self.processor = WhisperProcessor.from_pretrained("openai/whisper-base.en")
         self.model = WhisperForConditionalGeneration.from_pretrained(
-            "openai/whisper-small.en"
+            "openai/whisper-base.en"
         )
         self.transcribed_text = ""
         self.prediction_thread = threading.Thread(
@@ -40,12 +41,19 @@ class Transcriber:
         self.is_prediction_running = True
 
     def predict(self, speech_array: list, sampling_rate: int):
-        # self.logger.debug(speech_array)
-        input_features = self.processor(
-            speech_array, sampling_rate=sampling_rate, return_tensors="pt"
-        ).input_features
-        predicted_ids = self.model.generate(input_features)
-        return self.processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
+        try:
+            # self.logger.debug(speech_array)
+            input_features = self.processor(
+                speech_array, sampling_rate=sampling_rate, return_tensors="pt"
+            ).input_features
+            predicted_ids = self.model.generate(input_features)
+            return self.processor.batch_decode(predicted_ids, skip_special_tokens=True)[
+                0
+            ]
+        except Exception as e:
+            # If prediction encounters any error, just return an empty string.
+            self.logger.error(traceback.print_exc())
+            return ""
 
     def destroy_device(self):
         """Release PortAudio system resources"""
