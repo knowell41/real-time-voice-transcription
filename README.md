@@ -32,7 +32,19 @@ This component is responsible for processing the Audio stream and convert it to 
 ```
 > cd src
 > python main.py
+2024-07-30 17:40:33,270 - 6403351f - DEBUG - Terminating transcriber process...
+2024-07-30 17:40:33,346 - 6403351f - DEBUG - Terminating Audio device...
+2024-07-30 17:40:33,367 - 6403351f - DEBUG - Audio device terminated.
+2024-07-30 17:40:33,369 - 6403351f - DEBUG - Audio stream stopped.
+2024-07-30 17:40:33,369 - 6403351f - DEBUG - Terminating Audio device...
+2024-07-30 17:40:33,369 - 6403351f - DEBUG - Audio device terminated.
+========Transcribed text in this session=========
+ You  >>  (static)  (mufflers speaking off microphone softly on mic )  [ Silence ]  - (indiscity chatter drown  It's a  (static buzzing loudly off microphone softly on radio)  [static noises]  (clippers buzzing loudly on TV)  [Music fades]  I  *Music fades*  (mumbling off microphone.)  (laugh's speech)  Okay.  *silicon*  [Music fades.]
+=================================================
+2024-07-30 17:40:33,369 - 6403351f - DEBUG - DONE
+
 ```
+
 
 # ToDo
 This script is not yet working as intended. There are few issues

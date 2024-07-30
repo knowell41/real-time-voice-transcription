@@ -103,7 +103,7 @@ class Transcriber:
     def _callback(self, input_data, frame_count, time_info, flags):
         """Callback function to handle audio data during streaming."""
         self.frames.append(input_data)
-        if len(self.frames) > 10:
+        if len(self.frames) > 20:
             self.audio_queue.put((b"".join(self.frames), self.RATE))
             self.frames = []
         return (input_data, pyaudio.paContinue)
